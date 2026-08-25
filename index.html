@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Can Run — Which AI models can your PC run locally?</title>
+  <meta name="description" content="Detect your GPU, CPU and RAM in your browser and find out which open AI models you can run locally — chat, coding, image and video. No installs, no data leaves your machine." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b1220'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%2322d3ee' font-family='monospace' font-weight='bold'>✓</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">Sanad</span>
+        <span class="brand-divider"></span>
+        <span class="brand-tool">AI Can Run</span>
+      </a>
+      <nav class="header-nav">
+        <a href="#checker">Check your PC</a>
+        <a href="#how">How it works</a>
+        <a href="#why">Why local AI</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <p class="hero-kicker">Free · Private · Runs in your browser</p>
+        <h1>Which AI models can <span class="accent">your PC</span> run?</h1>
+        <p class="hero-sub">
+          We detect your GPU and memory and rank the open models that actually fit —
+          chat, coding, image and video. Nothing is uploaded; everything is computed
+          on your machine.
+        </p>
+        <button id="detect-btn" class="btn btn-primary btn-lg">Detect my hardware</button>
+        <p id="detect-hint" class="hero-hint">Works best in Chrome or Edge on desktop. Apple Silicon, NVIDIA, AMD and Intel supported.</p>
+      </div>
+    </section>
+
+    <!-- Checker -->
+    <section id="checker" class="checker">
+      <div class="wrap">
+        <div class="device-panel" id="device-panel">
+          <div class="device-detect" id="device-auto">
+            <span class="device-label">Detected device</span>
+            <span class="device-name" id="device-name">Waiting for detection…</span>
+            <span class="device-detail" id="device-detail"></span>
+          </div>
+          <div class="device-override">
+            <label for="device-select">Or pick your device</label>
+            <select id="device-select">
+              <option value="auto" selected>Auto (detected)</option>
+              <optgroup label="NVIDIA">
+                <option>RTX 5090</option><option>RTX 5080</option><option>RTX 5070 Ti</option>
+                <option>RTX 5070</option><option>RTX 5060 Ti 16GB</option><option>RTX 5060 Ti</option>
+                <option>RTX 5060</option><option>RTX 4090</option><option>RTX 4080 Super</option>
+                <option>RTX 4080</option><option>RTX 4070 Ti Super</option><option>RTX 4070 Ti</option>
+                <option>RTX 4070 Super</option><option>RTX 4070</option><option>RTX 4060 Ti 16GB</option>
+                <option>RTX 4060 Ti</option><option>RTX 4060</option><option>RTX 3090</option>
+                <option>RTX 3080</option><option>RTX 3070</option><option>RTX 3060</option>
+                <option>A100 80GB</option><option>H100 80GB</option>
+              </optgroup>
+              <optgroup label="AMD">
+                <option>RX 7900 XTX</option><option>RX 7900 XT</option><option>RX 7800 XT</option>
+                <option>RX 7700 XT</option><option>RX 7600</option><option>RX 6900 XT</option>
+                <option>RX 6800 XT</option><option>RX 6700 XT</option><option>RX 6600</option>
+              </optgroup>
+              <optgroup label="Intel">
+                <option>Arc B580</option><option>Arc A770</option><option>Arc A750</option><option>Arc A380</option>
+              </optgroup>
+              <optgroup label="Apple Silicon">
+                <option>M1</option><option>M1 Pro</option><option>M1 Max</option><option>M1 Ultra</option>
+                <option>M2</option><option>M2 Pro</option><option>M2 Max</option><option>M2 Ultra</option>
+                <option>M3</option><option>M3 Pro</option><option>M3 Max</option>
+                <option>M4</option><option>M4 Pro</option><option>M4 Max</option>
+                <option>M5</option><option>M5 Pro</option><option>M5 Max</option>
+              </optgroup>
+              <optgroup label="Single-board & mobile">
+                <option>Raspberry Pi 5 (8GB)</option><option>Raspberry Pi 5 (16GB)</option>
+                <option>Raspberry Pi 4 (8GB)</option>
+                <option>Modern phone (8GB+)</option><option>Flagship phone (12GB+)</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="custom">Custom (enter VRAM below)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="device-custom hidden" id="custom-row">
+            <label for="custom-vram">VRAM / unified memory (GB)</label>
+            <input id="custom-vram" type="number" min="1" max="512" value="8" />
+            <button id="custom-apply" class="btn btn-ghost">Apply</button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <div class="chip-row" id="type-chips">
+            <button class="chip active" data-type="all">All</button>
+            <button class="chip" data-type="chat">Chat</button>
+            <button class="chip" data-type="code">Coding</button>
+            <button class="chip" data-type="reasoning">Reasoning</button>
+            <button class="chip" data-type="image">Image</button>
+            <button class="chip" data-type="video">Video</button>
+            <button class="chip" data-type="tiny">Tiny / on-device</button>
+          </div>
+          <div class="filter-row">
+            <input id="search" class="search" type="search" placeholder="Search models… (e.g. qwen, llama, flux)" />
+            <label class="quant-label" for="quant-select">Quantization
+              <select id="quant-select">
+                <option value="q2">Q2_K — smallest</option>
+                <option value="q3">Q3_K_M</option>
+                <option value="q4" selected>Q4_K_M — recommended</option>
+                <option value="q5">Q5_K_M</option>
+                <option value="q6">Q6_K</option>
+                <option value="q8">Q8_0</option>
+                <option value="f16">F16 — full quality</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <!-- Model grid -->
+        <div id="model-grid" class="model-grid" aria-live="polite"></div>
+        <p id="grid-empty" class="grid-empty hidden">No models match that search.</p>
+
+        <p class="disclaimer">
+          All results are estimates. Real performance depends on drivers, cooling,
+          background apps and OS memory pressure. Use the grades as a guideline,
+          not a guarantee.
+        </p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="section">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">01</span>
+            <h3>Open the page</h3>
+            <p>Visit in a desktop browser. No account, no extension, no install.</p>
+          </div>
+          <div class="step">
+            <span class="step-num">02</span>
+            <h3>Detect or pick your hardware</h3>
+            <p>Your browser reports the GPU, RAM and CPU cores. Prefer manual? Choose your device from the list.</p>
+          </div>
+          <div class="step">
+            <span class="step-num">03</span>
+            <h3>Compare and run</h3>
+            <p>Review the top open models that fit, then grab the GGUF from Hugging Face and run it with Ollama, LM Studio or llama.cpp.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why local AI -->
+    <section id="why" class="section section-alt">
+      <div class="wrap">
+        <h2>Why run AI locally?</h2>
+        <div class="why-grid">
+          <div class="why-card">
+            <h3>Privacy</h3>
+            <p>Your prompts never leave your device. No cloud account, no logging, no third-party review.</p>
+          </div>
+          <div class="why-card">
+            <h3>No per-token cost</h3>
+            <p>Once the model is downloaded, inference is free. No subscriptions, no rate limits.</p>
+          </div>
+          <div class="why-card">
+            <h3>Works offline</h3>
+            <p>Flaky connection or no internet at all — local models keep working anywhere.</p>
+          </div>
+          <div class="why-card">
+            <h3>Full control</h3>
+            <p>Open weights mean you own the model. Fine-tune it, serve it, or keep it forever.</p>
+          </div>
+        </div>
+        <p class="why-note">
+          Cloud assistants are still stronger on the hardest tasks. AI Can Run is for the
+          open-weight models you can download and run yourself.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="wrap">
+        <h2>Common questions</h2>
+        <div class="faq">
+          <details>
+            <summary>How much VRAM do I need?</summary>
+            <p>As a rule of thumb: 8 GB runs 3–9B chat models at Q4; 12–16 GB covers most 12B–27B models; 24 GB opens 30B dense models and local image or video generation. Mixture-of-experts models load all experts into memory, even though only a few are active per token — so a 128B MoE still needs 80 GB+.</p>
+          </details>
+          <details>
+            <summary>Is my data sent anywhere?</summary>
+            <p>No. Hardware detection runs entirely in your browser using WebGL, WebGPU and standard navigation APIs. The page is fully static — nothing is uploaded to any server.</p>
+          </details>
+          <details>
+            <summary>What is quantization?</summary>
+            <p>Quantization stores model weights in fewer bits so files are smaller and use less memory. Q4_K_M is the usual sweet spot for local chat — much smaller than full precision with only a modest quality drop. Higher formats like Q8 or F16 look closer to the original but need more VRAM.</p>
+          </details>
+          <details>
+            <summary>Which runtime should I use?</summary>
+            <p>Ollama and LM Studio are the easiest starting points. llama.cpp gives you the most control and runs on almost anything, including Raspberry Pi. Any of them can load the same GGUF files.</p>
+          </details>
+          <details>
+            <summary>Can I use this for a business?</summary>
+            <p>That depends on the model licence, not on this tool. Models carry their own terms (Apache 2.0, MIT, Llama Community, etc.) — check the licence on each model card before commercial use.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div>
+        <p class="footer-brand">Sanad — AI tools, cloud hosting & websites</p>
+        <p class="footer-note">
+          AI Can Run is an independent tool by Sanad. Inspired by
+          <a href="https://www.canirun.ai" target="_blank" rel="noopener">CanIRun.ai</a>.
+          Model names and licences belong to their respective labs.
+        </p>
+      </div>
+      <p class="footer-meta">Detection is approximate · Open-source on <a href="https://github.com/Amz34/ai-can-run" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </footer>
+
+  <!-- Model detail modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="js/gpu-db.js"></script>
+  <script src="js/models.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/hardware.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
