@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://amz34.github.io/ai-can-run/sitemap.xml

@@ -1,0 +1,46 @@
+name: Bug report
+description: A detection, grade or layout result looks wrong
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hardware detection is approximate, so include as much detail as you can
+        about the machine you tested on.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The model, grade or number you saw, and what you expected.
+    validations:
+      required: true
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU / chip
+      placeholder: e.g. RTX 3060 12GB, M2 Pro 16GB, Radeon 780M
+    validations:
+      required: true
+  - type: input
+    id: memory
+    attributes:
+      label: System memory
+      placeholder: e.g. 16 GB
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: e.g. Chrome 128 on Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Any errors from the browser devtools console.
+      render: shell
+    validations:
+      required: false

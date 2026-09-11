@@ -1,0 +1,37 @@
+name: Database correction
+description: Add or fix a GPU, model or quantisation entry
+title: "[data] "
+labels: ["data"]
+body:
+  - type: dropdown
+    id: table
+    attributes:
+      label: Which table
+      options:
+        - GPU database (js/gpu-db.js)
+        - Model list (js/models.js)
+        - Scoring or VRAM math (js/scoring.js)
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+      description: Exact values, with the field names used in the file.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Vendor spec sheet, official model card or your own measurement.
+      placeholder: https://...
+    validations:
+      required: true
+  - type: input
+    id: verified
+    attributes:
+      label: Verified on hardware (optional)
+      placeholder: e.g. tested loading Q4_K_M on RTX 3060 12GB
+    validations:
+      required: false
