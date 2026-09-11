@@ -15,6 +15,8 @@ open-weight models that actually fit your hardware — chat, coding, image and
 video — with letter grades, quantisation-aware VRAM estimates and speed
 predictions.
 
+> Companion list: **[Awesome Agent Infrastructure](https://github.com/Amz34/awesome-agent-infrastructure)** — 135 live-checked, self-hostable building blocks for AI agents (frameworks, memory, MCP servers, RAG, local inference, evals, free-tier infra).
+
 ## Why it exists
 
 The most common way people waste an evening on local AI is downloading a model
